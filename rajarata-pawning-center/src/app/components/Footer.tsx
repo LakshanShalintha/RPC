@@ -8,13 +8,13 @@ export default function Footer() {
       <div className="container mx-auto px-4 md:px-20 py-10">
         <div className="flex flex-col md:flex-row md:justify-between gap-8 items-center text-center md:items-start md:text-left">
           <div className="md:flex-1">
-            <h3 className="text-xl md:text-3xl font-bold text-yellow-500">Rajarata Pawning Center</h3>
+            <h3 className="text-xl md:text-3xl font-bold text-yellow-500">Rajarata Gold Loan Center</h3>
             <p className="mt-4 text-sm text-black">Trusted pawning services in the Rajarata region.</p>
 
             <div className="mt-4 text-sm text-black space-y-1">
               <p>
                 <a href="mailto:rcp@gmail.com" className="hover:text-yellow-500">
-                  rcp@gmail.com
+                  rpc@gmail.com
                 </a>
               </p>
               <p>Siripura New Town,</p>
