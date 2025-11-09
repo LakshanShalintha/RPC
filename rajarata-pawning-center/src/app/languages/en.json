@@ -1,0 +1,130 @@
+{
+  "navbar": {
+    "home": "Home",
+    "services": "Services",
+    "about": "About",
+    "contact": "Contact"
+  },
+
+
+  "home": {
+    "slides": [
+      {
+        "title": "",
+        "desc": ""
+      },
+      {
+        "title": "Fair Valuations",
+        "desc": "We provide accurate, transparent appraisals for all items. Our experts carefully assess each piece based on current market value."
+      },
+      {
+        "title": "Flexible Terms",
+        "desc": "Choose short or long-term pawn options that suit your financial needs. Redeem your items at your own pace with no hidden fees."
+      },
+      {
+        "title": "Secure Storage",
+        "desc": "Your valuables are stored in a fully monitored and insured facility."
+      },
+      {
+        "title": "Friendly Support",
+        "desc": "Our experienced staff is always ready to assist you with clear guidance."
+      }
+    ],
+    "stats": [
+      { "value": "10K+", "label": "Happy Customers" },
+      { "value": "15+", "label": "Years Experience" },
+      { "value": "98%", "label": "Satisfaction Rate" },
+      { "value": "100%", "label": "Secure Storage" }
+    ],
+    "mainServicesTitle": "Our Main Services",
+    "mainServices": [
+      { "title": "Gold Loans", "desc": "Quick and secure loans against gold items." },
+      { "title": "Jewelry Appraisal", "desc": "Accurate valuation for your precious jewelry." },
+      { "title": "Pawn Renewals", "desc": "Flexible renewal options for existing pawns." },
+      { "title": "Secure Storage", "desc": "Safe storage for your valuables with full insurance." }
+    ],
+    "branchesTitle": "Our Branches",
+    "branches": [
+      { "title": "Siripura", "desc": "Our first branch located in Siripura." },
+      { "title": "Coming Soon...", "desc": "" }
+    ],
+    "contact": {
+      "title": "Contact Us",
+      "callUs": "Call Us",
+      "info": "For more information",
+      "phone1": "076-1515169",
+      "phone2": "075-0945520",
+      "email": "rpc@gmail.com"
+    }
+  },
+
+
+  
+  "services": {
+    "title": "Our Services",
+    "desc": "We offer a range of pawn services to meet your needs. Below are the details:",
+    "list": [
+      { "title": "Maximum Loan Amount", "description": "Rs. 150,000" },
+      { "title": "Interest Rate", "description": "1% interest per month" },
+      { "title": "Minimum for Pawning", "description": "200 mg gold" },
+      { "title": "Interest-Free Grace Period", "description": "First month (for specific types of loans)" },
+      { "title": "Working Hours", "description": "8:00 AM to 5:00 PM" },
+      { "title": "Redemption and Renewal", "description": "Within one month" },
+      { "title": "Flexible Payment Plans", "description": "Based on your requirements" },
+      { "title": "Regular Customer Benefits", "description": "Special benefits available" }
+    ],
+    "contactText": "For more details, call us at:",
+    "contactNumbers": "076-1515169 / 075-0945520 / 0788-722740"
+  },
+
+
+  "about": {
+    "title": "About Us",
+    "desc": "We offer trusted and reliable pawn services to our customers.",
+    "whoWeAreTitle": "Who We Are",
+    "whoWeAreDesc": "Rajarata Pawning Center has been a trusted name in the pawning industry for over 15 years. We are dedicated to providing secure, transparent, and customer-focused services to meet your financial needs.",
+    "ourMissionTitle": "Our Mission",
+    "ourMissionDesc": "Our mission is to empower individuals by offering fair and flexible pawning solutions, ensuring the safety and confidentiality of your valuables.",
+    "whyChooseUsTitle": "Why Choose Us",
+    "whyChooseUsList": [
+      "Trusted by thousands of customers",
+      "Competitive interest rates",
+      "Secure storage facilities",
+      "Friendly and professional staff"
+    ]
+  },
+  
+  
+  "contact": {
+    "title": "Contact Us",
+    "desc": "We are here to assist you. Reach out to us using the form below or find our location details.",
+    "form": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "contactNumber": "Contact Number",
+      "message": "Message",
+      "submit": "Submit"
+    },
+    "details": {
+      "officeName": "Rajarata Gold Loan Center",
+      "address": "Siripura New Town, Polonnaruwa, Sri Lanka",
+      "phones": "076-1515169 / 075-0945520 / 078-8722740",
+      "mapTitle": "Our Location"
+    }
+  },
+
+  "footer": {
+  "companyName": "Rajarata Gold Loan Center",
+  "description": "Trusted pawning services in the Rajarata region.",
+  "email": "rpc@gmail.com",
+  "addressLine1": "Siripura New Town,",
+  "addressLine2": "Polonnaruwa, Sri Lanka.",
+  "pagesTitle": "Pages",
+  "pages": { "home": "Home", "services": "Services", "about": "About", "contact": "Contact" },
+  "copyright": "Rajarata Pawning Center",
+  "rights": "All rights reserved.",
+  "social": { "facebook": "#", "instagram": "#", "location": "#" }
+  }
+
+}

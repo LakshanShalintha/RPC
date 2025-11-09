@@ -1,46 +1,109 @@
+'use client'
+
+import { motion } from 'framer-motion'
+import { useLanguage } from '../context/LanguageContext'
 
 export default function AboutPage() {
+  const { translations } = useLanguage()
+  const t = translations.about || {}
+
   return (
-    <main className="min-h-screen bg-linear-to-br from-yellow-50 to-white">
-      <section className="py-16 mr-14 ml-14">
+    <main className="min-h-screen relative overflow-hidden bg-gradient-to-br from-[#1f1508] via-[#3b2f1e] to-[#2a1d0b] text-white">
+      {/* Glowing background orbs */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-20 left-20 w-80 h-80 bg-yellow-500/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-amber-400/20 rounded-full blur-3xl animate-pulse"></div>
+      </div>
+
+      <section className="py-16 relative z-10 mr-10 ml-10">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-5xl font-extrabold text-gray-900 mb-4">About Us</h2>
-            <p className="text-lg text-gray-600">Learn more about Rajarata Pawning Center and our commitment to serving you.</p>
-            <div className="w-20 h-1 bg-yellow-500 mx-auto mt-4"></div>
+          {/* Header Section */}
+          <div className="text-center mb-14">
+            <motion.h2
+              initial={{ opacity: 0, y: -30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
+              className="text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-amber-300 to-yellow-200 drop-shadow-[0_0_15px_rgba(255,215,0,0.5)] mb-4"
+            >
+              {t.title || 'About Rajarata Pawn'}
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+              className="text-lg text-amber-100"
+            >
+              {t.desc || 'Dedicated to providing fair, transparent and trusted pawning services for everyone.'}
+            </motion.p>
+
+            <div className="w-24 h-1 bg-yellow-400 mx-auto mt-4 rounded-full shadow-md"></div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Left Side: Text Content */}
-            <div className="space-y-6">
-              <h3 className="text-3xl font-bold text-gray-900">Who We Are</h3>
-              <p className="text-gray-700">
-                Rajarata Pawning Center has been a trusted name in the pawning industry for over 15 years. We are dedicated to providing secure, transparent, and customer-focused services to meet your financial needs.
-              </p>
-              <h3 className="text-3xl font-bold text-gray-900">Our Mission</h3>
-              <p className="text-gray-700">
-                Our mission is to empower individuals by offering fair and flexible pawning solutions, ensuring the safety and confidentiality of your valuables.
-              </p>
-              <h3 className="text-3xl font-bold text-gray-900">Why Choose Us</h3>
-              <ul className="list-disc list-inside text-gray-700">
-                <li>Trusted by thousands of customers</li>
-                <li>Competitive interest rates</li>
-                <li>Secure storage facilities</li>
-                <li>Friendly and professional staff</li>
-              </ul>
-            </div>
+          {/* Main Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            {/* Left Side – Text Section */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7 }}
+              className="space-y-8 bg-white/10 backdrop-blur-xl border border-yellow-300/30 p-8 rounded-2xl shadow-xl"
+            >
+              <div>
+                <h3 className="text-3xl font-bold text-yellow-300 mb-2">
+                  {t.whoWeAreTitle || 'Who We Are'}
+                </h3>
+                <p className="text-amber-100 leading-relaxed">
+                  {t.whoWeAreDesc ||
+                    'Rajarata Pawn is a trusted pawning center serving the community with honesty and reliability. We offer secure, fair evaluations and personalized services for your valuable assets.'}
+                </p>
+              </div>
 
-            {/* Right Side: Image */}
-            <div className="flex justify-center items-center">
-              <img
-                src="/images/about/about.png"
-                alt="About Us"
-                className="rounded-xl shadow-lg hover:shadow-xl transition-transform transform hover:scale-105"
-              />
-            </div>
+              <div>
+                <h3 className="text-3xl font-bold text-yellow-300 mb-2">
+                  {t.ourMissionTitle || 'Our Mission'}
+                </h3>
+                <p className="text-amber-100 leading-relaxed">
+                  {t.ourMissionDesc ||
+                    'Our mission is to provide easy access to financial support while maintaining the highest level of transparency, security, and trust.'}
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-3xl font-bold text-yellow-300 mb-3">
+                  {t.whyChooseUsTitle || 'Why Choose Us'}
+                </h3>
+                <ul className="list-disc list-inside text-amber-100 space-y-2">
+                  {(t.whyChooseUsList || [
+                    'Trusted evaluations by professionals',
+                    'Quick and secure transactions',
+                    'Confidential and reliable services',
+                  ]).map((item: string, index: number) => (
+                    <li key={index}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
+
+            {/* Right Side – Image Section */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              className="flex justify-center items-center"
+            >
+              <div className="relative">
+                <div className="absolute -inset-2 bg-gradient-to-r from-yellow-400 to-amber-300 rounded-2xl blur-lg opacity-40"></div>
+                <img
+                  src="/images/about/about.png"
+                  alt={t.title}
+                  className="relative rounded-2xl border border-yellow-300/20 shadow-2xl backdrop-blur-lg transform hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
     </main>
-  );
+  )
 }
