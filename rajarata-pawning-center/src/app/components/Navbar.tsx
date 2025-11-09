@@ -62,8 +62,8 @@ export default function Navbar() {
         onClick={() => setActiveLang('english')}
         className={`text-[10px] font-semibold transition-colors ${
           activeLang === 'english'
-            ? 'underline underline-offset-4'
-            : 'text-black'
+            ? 'text-black underline underline-offset-4'
+            : 'text-gray-700 hover:text-black'
         }`}
       >
         English
@@ -72,8 +72,8 @@ export default function Navbar() {
         onClick={() => setActiveLang('sinhala')}
         className={`text-[10px] font-semibold transition-colors ${
           activeLang === 'sinhala'
-            ? 'underline underline-offset-4'
-            : 'text-black'
+            ? 'text-black underline underline-offset-4'
+            : 'text-gray-700 hover:text-black'
         }`}
       >
         සිංහල
