@@ -9,29 +9,29 @@ type Slide = {
 
 const slides: Slide[] = [
   {
-    title: 'Trusted Pawning Services',
-    desc: 'Fast, secure, and confidential pawning for your valuables.',
-    image: '/images/img1.png',
+    title: '',
+    desc: '',
+    image: '/images/home-slider/1st.png',
   },
   {
     title: 'Fair Valuations',
-    desc: 'We provide accurate, transparent appraisals for all items.',
-    image: '/images/slide2.svg',
+    desc: 'We provide accurate, transparent appraisals for all items. Our experts carefully assess each piece based on current market value. You can trust us to offer fair prices that truly reflect your valuables.',
+    image: '/images/home-slider/2nd.png',
   },
   {
     title: 'Flexible Terms',
-    desc: 'Short and long term pawn options tailored to your needs.',
-    image: '/images/slide3.svg',
+    desc: 'Choose short or long-term pawn options that suit your financial needs. We understand that everyone’s situation is different, so our plans are designed with flexibility in mind. Redeem your items at your own pace with no hidden fees.',
+    image: '/images/home-slider/3rd.png',
   },
   {
     title: 'Secure Storage',
-    desc: 'All items are stored securely with full insurance coverage.',
-    image: '/images/slide4.svg',
+    desc: 'Your valuables are stored in a fully monitored and insured facility. We take every measure to ensure maximum safety and confidentiality. Rest assured that your items remain protected until you decide to reclaim them.',
+    image: '/images/home-slider/4th.png',
   },
   {
     title: 'Friendly Support',
-    desc: 'Our staff are available to guide you through the process.',
-    image: '/images/slide5.svg',
+    desc: 'Our experienced staff is always ready to assist you with clear guidance. We believe in building long-term relationships through honest and respectful service. From the moment you visit, you’ll feel supported every step of the way.',
+    image: '/images/home-slider/5th.png',
   },
 ]
 
@@ -62,7 +62,7 @@ export default function HomePage() {
       {/* left-side text */}
       <div className="relative z-20 max-w-3xl h-full flex items-center">
         <div className="px-6 md:px-20 lg:px-32 text-left text-white">
-          <h1 className="text-3xl md:text-5xl font-bold leading-tight">{slides[index].title}</h1>
+          <h1 className="text-[64px] md:text-[64px] font-bold leading-tight">{slides[index].title}</h1>
           <p className="mt-4 text-sm md:text-lg text-white/90 max-w-xl">{slides[index].desc}</p>
         </div>
       </div>
@@ -113,8 +113,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* New section for main services */}
-      <section className="py-16 bg-linear-to-br from-gray-50 to-gray-100 relative z-30">
+      {/* main services */}
+      <section className="py-16 bg-linear-to-br from-yellow-100 to-gray-100 relative z-30">
         <div className="container mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Main Services</h2>
@@ -149,7 +149,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* New section for branches */}
+      {/* branches */}
       <section className="py-16 bg-linear-to-br from-gray-50 to-gray-100 relative z-30">
         <div className="container mx-auto px-6">
           <div className="text-center mb-12">
@@ -167,8 +167,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Updated section for contact details */}
-      <section className="py-16 bg-linear-to-br from-gray-50 to-gray-100 relative z-30">
+      {/* contact details */}
+      <section className="py-16 bg-linear-to-br from-yellow-200 to-gray-100 relative z-30">
         <div className="container mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Contact Us</h2>
@@ -177,7 +177,7 @@ export default function HomePage() {
 
           <div className="flex justify-center items-center space-x-4">
             {/* Left side: Contact details */}
-            <div className="p-6 bg-white/30 backdrop-blur-md rounded-2xl border border-white/60 shadow-xl hover:shadow-2xl transition-all duration-300 w-90 h-80">
+            <div className="p-6 bg-white backdrop-blur-md rounded-2xl border border-white/60 shadow-xl hover:shadow-2xl transition-all duration-300 w-90 h-80">
               <div className="text-center">
                 <span className="text-4xl text-black mb-4">📞</span>
                 <h3 className="text-2xl font-bold text-gray-900">Call Us</h3>
@@ -192,7 +192,7 @@ export default function HomePage() {
             {/* Right side: Map */}
             <div className="p-6 ">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d247.09736910462456!2d81.01751559898275!3d7.730488118079183!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2slk!4v1762672083542!5m2!1sen!2slk"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d323.5455596233786!2d81.01741540533706!3d7.730382254394223!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3afb4d0902a7f06b%3A0x3ca3539acf404fa8!2sP2J8%2B5XP%2C%20Siripura!5e0!3m2!1sen!2slk!4v1762683669238!5m2!1sen!2slk"
                 width="130%"
                 height="310"
                 style={{ borderRadius: '15px', border: 0 }}
