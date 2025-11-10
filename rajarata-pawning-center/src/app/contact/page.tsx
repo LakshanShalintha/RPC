@@ -15,7 +15,7 @@ export default function ContactPage() {
         <div className="absolute bottom-20 right-20 w-96 h-96 bg-amber-400/20 rounded-full blur-3xl animate-pulse"></div>
       </div>
 
-      <section className="py-16 relative z-10 mr-10 ml-10">
+      <section className="py-16 relative z-10 mx-0 lg:mx-14">
         <div className="container mx-auto px-6">
           {/* Title Section */}
           <div className="text-center mb-12">
