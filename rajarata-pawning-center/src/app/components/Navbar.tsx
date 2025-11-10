@@ -25,7 +25,7 @@ export default function Navbar() {
         {/* Logo - only visible on desktop */}
         <Link
           href="/home"
-          className="hidden md:block text-3xl font-bold text-yellow-500"
+          className="hidden md:block text-3xl font-bold text-yellow-600"
         >
           Rajarata Pawn
         </Link>

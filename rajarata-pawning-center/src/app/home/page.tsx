@@ -31,19 +31,18 @@ export default function HomePage() {
         <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-10 md:gap-16 mx-0 lg:mx-14">
           {/* Left Text Section */}
           <div className="w-full md:w-1/2 text-center md:text-left px-2">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
-              Instant Cash for Your Valuables. <br className="hidden md:block" /> Quick, Easy, Secure.
+            <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold leading-tight"> {t.title || 'Instant Cash for Your Valuables.'}
+               <br className="hidden md:block" /> {t.brtitle || 'Quick, Easy, Secure.'}
             </h1>
-            <p className="text-base sm:text-lg mb-6 mt-4 text-amber-100">
-              Get a free online estimate or visit one of our conveniently located centers.
+            <p className="text-base sm:text-lg mb-6 mt-4 text-amber-100"> {t.subtitle || 'Get a free online estimate or visit one of our conveniently located centers.'}      
             </p>
 
             {/* Icons Section */}
             <div className="flex flex-wrap justify-center md:justify-start mt-8 gap-4">
               {[
-                { src: '/images/home-card/ring.png', label: 'Ring' },
-                { src: '/images/home-card/necklace.png', label: 'Necklace' },
-                { src: '/images/home-card/bracelet.png', label: 'Bracelet' },
+                { src: '/images/home-card/ring.png', label: t.title_img1 || 'Ring' },
+                { src: '/images/home-card/necklace.png', label: t.title_img2 || 'Necklace' },
+                { src: '/images/home-card/bracelet.png', label: t.title_img3 || 'Bracelet' },
               ].map((item, i) => (
                 <div
                   key={i}
@@ -111,7 +110,7 @@ export default function HomePage() {
       <section className="py-20 relative z-30 mx-0 lg:mx-14">
         <div className="container mx-auto px-6">
           <div className="text-center mb-14">
-            <h2 className="text-4xl font-extrabold text-yellow-300 mb-4 drop-shadow-[0_0_10px_rgba(255,215,0,0.4)]">
+            <h2 className="text-5xl font-extrabold text-yellow-300 mb-4 drop-shadow-[0_0_10px_rgba(255,215,0,0.4)]">
               {t.mainServicesTitle || 'Our Main Services'}
             </h2>
             <div className="w-24 h-1 bg-yellow-400 mx-auto rounded-full shadow-md"></div>
@@ -140,7 +139,7 @@ export default function HomePage() {
       <section className="py-20 relative z-30 mx-0 lg:mx-14">
         <div className="container mx-auto px-6">
           <div className="text-center mb-14">
-            <h2 className="text-4xl font-extrabold text-yellow-300 mb-4">
+            <h2 className="text-5xl font-extrabold text-yellow-300 mb-4">
               {t.branchesTitle || 'Our Branches'}
             </h2>
             <div className="w-24 h-1 bg-yellow-400 mx-auto rounded-full shadow-md"></div>
@@ -169,7 +168,7 @@ export default function HomePage() {
       <section className="py-20 relative z-30">
         <div className="container mx-auto px-6">
           <div className="text-center mb-14">
-            <h2 className="text-4xl font-extrabold text-yellow-300 mb-4">
+            <h2 className="text-5xl font-extrabold text-yellow-300 mb-4">
               {t.contact?.title || 'Contact Us'}
             </h2>
             <div className="w-24 h-1 bg-yellow-400 mx-auto rounded-full shadow-md"></div>
