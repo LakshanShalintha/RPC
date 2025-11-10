@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import { useLanguage } from '../context/LanguageContext'
-import { motion } from 'framer-motion'
 
 export default function Footer() {
   const { translations } = useLanguage()
