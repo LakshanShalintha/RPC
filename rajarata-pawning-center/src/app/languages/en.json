@@ -8,6 +8,13 @@
 
 
   "home": {
+    "title": "Instant Cash for Your Valuables.",
+    "brtitle": "Quick, Easy, Secure.",
+    "subtitle": "Get a free online estimate or visit one of our conveniently located centers.",
+    "title_img1": "Ring",
+    "title_img2": "Necklace",
+    "title_img3": "Bracelet",
+
     "slides": [
       {
         "title": "",
@@ -45,7 +52,7 @@
     ],
     "branchesTitle": "Our Branches",
     "branches": [
-      { "title": "Siripura", "desc": "Our first branch located in Siripura." },
+      { "title": "Siripura", "desc": "Our branch located in Siripura." },
       { "title": "Coming Soon...", "desc": "" }
     ],
     "contact": {
@@ -64,7 +71,7 @@
     "title": "Our Services",
     "desc": "We offer a range of pawn services to meet your needs. Below are the details:",
     "list": [
-      { "title": "Maximum Loan Amount", "description": "Rs. 150,000" },
+      { "title": "Maximum Loan Amount (1 Pound)", "description": "Rs. 150,000" },
       { "title": "Interest Rate", "description": "1% interest per month" },
       { "title": "Minimum for Pawning", "description": "200 mg gold" },
       { "title": "Interest-Free Grace Period", "description": "First month (for specific types of loans)" },

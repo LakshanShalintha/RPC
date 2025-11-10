@@ -1,3 +1,7 @@
+/* ✅ Must come FIRST — import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;700&family=Inter:wght@400;700&family=Noto+Sans+Sinhala:wght@400;700&display=swap');
+
+/* ✅ Then import Tailwind */
 @import "tailwindcss";
 
 :root {
@@ -14,7 +18,6 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* Keep background white across themes per project requirement */
     --background: #ffffff;
     --foreground: #171717;
   }
@@ -23,7 +26,11 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Noto Sans Sinhala', 'Inter', sans-serif;
+}
+
+h1, h2 {
+  font-family: 'Abhaya Libre', 'Noto Sans Sinhala', serif;
 }
 
 @keyframes gradient {
@@ -36,6 +43,7 @@ body {
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;
 }
+
 @keyframes float {
   0%, 100% { transform: translateY(0) scale(1); }
   50% { transform: translateY(-20px) scale(1.05); }
