@@ -16,26 +16,11 @@
     "title_img3": "Bracelet",
 
     "slides": [
-      {
-        "title": "",
-        "desc": ""
-      },
-      {
-        "title": "Fair Valuations",
-        "desc": "We provide accurate, transparent appraisals for all items. Our experts carefully assess each piece based on current market value."
-      },
-      {
-        "title": "Flexible Terms",
-        "desc": "Choose short or long-term pawn options that suit your financial needs. Redeem your items at your own pace with no hidden fees."
-      },
-      {
-        "title": "Secure Storage",
-        "desc": "Your valuables are stored in a fully monitored and insured facility."
-      },
-      {
-        "title": "Friendly Support",
-        "desc": "Our experienced staff is always ready to assist you with clear guidance."
-      }
+      {},
+      {},
+      {},
+      {},
+      {}
     ],
     "stats": [
       { "value": "10K+", "label": "Happy Customers" },
@@ -71,7 +56,7 @@
     "title": "Our Services",
     "desc": "We offer a range of pawn services to meet your needs. Below are the details:",
     "list": [
-      { "title": "Maximum Loan Amount (1 Pound)", "description": "Rs. 150,000" },
+      { "title": "Maximum Loan Amount a Pound", "description": "Rs. 150,000" },
       { "title": "Interest Rate", "description": "1% interest per month" },
       { "title": "Minimum for Pawning", "description": "200 mg gold" },
       { "title": "Interest-Free Grace Period", "description": "First month (for specific types of loans)" },
