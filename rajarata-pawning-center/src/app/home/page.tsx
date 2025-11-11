@@ -3,20 +3,73 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useLanguage } from '../context/LanguageContext'
+import { SliderService } from '@/lib/sliderService'
+import { BranchService } from '@/lib/branchService'
+import { Slider, Branch } from '@/lib/supabase'
 
 export default function HomePage() {
-  const { translations } = useLanguage()
+  const { translations, language } = useLanguage()
   const t = translations.home || {}
   const [index, setIndex] = useState(0)
+  const [slides, setSlides] = useState<Slider[]>([])
+  const [loadingSliders, setLoadingSliders] = useState<boolean>(true)
+  const [branches, setBranches] = useState<Branch[]>([])
+  const [loadingBranches, setLoadingBranches] = useState<boolean>(true)
+
+  // Fetch sliders from Supabase
+  useEffect(() => {
+    const fetchSliders = async () => {
+      try {
+        const data = await SliderService.getAllSliders()
+        if (data && data.length > 0) {
+          setSlides(data)
+        } else {
+          // Fallback to static images if no sliders in database
+          setSlides(t.slides || [])
+        }
+      } catch (error) {
+        console.error('Error loading sliders:', error)
+        // Fallback to static images on error
+        setSlides(t.slides || [])
+      } finally {
+        setLoadingSliders(false)
+      }
+    }
+
+    fetchSliders()
+  }, [t.slides])
+
+  // Fetch branches from Supabase
+  useEffect(() => {
+    const fetchBranches = async () => {
+      try {
+        const data = await BranchService.getAllBranches()
+        if (data && data.length > 0) {
+          setBranches(data)
+        } else {
+          // Fallback to static branches if no data in database
+          setBranches(t.branches || [])
+        }
+      } catch (error) {
+        console.error('Error loading branches:', error)
+        // Fallback to static branches on error
+        setBranches(t.branches || [])
+      } finally {
+        setLoadingBranches(false)
+      }
+    }
+
+    fetchBranches()
+  }, [t.branches])
 
   useEffect(() => {
     const id = setInterval(() => {
-      if (t.slides?.length) {
-        setIndex((i) => (i + 1) % t.slides.length)
+      if (slides.length) {
+        setIndex((i) => (i + 1) % slides.length)
       }
     }, 4000)
     return () => clearInterval(id)
-  }, [t.slides?.length])
+  }, [slides.length])
 
   return (
     <main className="relative overflow-hidden bg-gradient-to-br from-[#1f1508] via-[#3b2f1e] to-[#2a1d0b] text-white">
@@ -57,19 +110,29 @@ export default function HomePage() {
 
           {/* Right Image Slider */}
           <div className="w-full md:w-1/2 h-64 sm:h-80 md:h-[420px] relative mt-8 md:mt-0 rounded-2xl overflow-hidden">
-            {t.slides?.map((s: { image?: string }, i: number) => (
-              <div
-                key={i}
-                className={`absolute inset-0 transition-opacity duration-1000 rounded-2xl shadow-lg ${
-                  i === index ? 'opacity-100 z-10' : 'opacity-0 z-0'
-                }`}
-                style={{
-                  backgroundImage: `url(${s.image || `/images/home-slider/${i + 1}.png`})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
-              ></div>
-            ))}
+            {loadingSliders ? (
+              <div className="absolute inset-0 flex items-center justify-center bg-white/5 rounded-2xl">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-yellow-500"></div>
+              </div>
+            ) : slides.length > 0 ? (
+              slides.map((slide, i) => (
+                <div
+                  key={slide.id || i}
+                  className={`absolute inset-0 transition-opacity duration-1000 rounded-2xl shadow-lg ${
+                    i === index ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                  }`}
+                  style={{
+                    backgroundImage: `url(${slide.image_url || `/images/home-slider/${i + 1}.png`})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                  }}
+                ></div>
+              ))
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center bg-white/5 rounded-2xl">
+                <p className="text-amber-200">No slider images available</p>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -145,22 +208,32 @@ export default function HomePage() {
             <div className="w-24 h-1 bg-yellow-400 mx-auto rounded-full shadow-md"></div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 justify-center">
-            {t.branches?.map(
-              (b: { title: React.ReactNode; desc: React.ReactNode }, i: number) => (
+          {loadingBranches ? (
+            <div className="flex justify-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-300"></div>
+            </div>
+          ) : branches.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-amber-100 text-lg">No branches available at the moment.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 justify-center">
+              {branches.map((branch) => (
                 <motion.div
-                  key={i}
+                  key={branch.id}
                   whileHover={{ scale: 1.03 }}
                   className="text-center p-8 bg-white/10 backdrop-blur-xl border border-yellow-300/30 rounded-2xl shadow-lg"
                 >
                   <div className="text-2xl font-bold text-yellow-300 mb-3">
-                    {b.title}
+                    {language === 'si' ? (branch.title_si || branch.title) : branch.title}
                   </div>
-                  <div className="text-amber-100">{b.desc}</div>
+                  <div className="text-amber-100">
+                    {language === 'si' ? (branch.description_si || branch.description) : branch.description}
+                  </div>
                 </motion.div>
-              )
-            )}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
