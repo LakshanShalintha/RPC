@@ -2,10 +2,26 @@
 
 import { motion } from 'framer-motion'
 import { useLanguage } from '../context/LanguageContext'
+import { useEffect, useState } from 'react'
+import { ServiceService } from '@/lib/serviceService'
+import type { Service } from '@/lib/supabase'
 
 export default function ServicesPage() {
-  const { translations } = useLanguage()
+  const { language, translations } = useLanguage()
   const t = translations?.services || {}
+  const [services, setServices] = useState<Service[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetchServices()
+  }, [])
+
+  const fetchServices = async () => {
+    setLoading(true)
+    const data = await ServiceService.getAllServices()
+    setServices(data)
+    setLoading(false)
+  }
 
   // Determine animation direction based on index and grid column
   const getEntranceVariant = (index: number) => {
@@ -54,32 +70,38 @@ export default function ServicesPage() {
           </motion.div>
 
           {/* Glass cards */}
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          >
-            {t.list?.map((service: any, index: number) => (
-              <motion.div
-                key={index}
-                variants={getEntranceVariant(index)}
-                transition={{ duration: 0.6, ease: 'easeOut' }}
-                whileHover={{
-                  scale: 1.08,
-                  boxShadow: '0px 0px 35px rgba(255, 215, 0, 0.4)',
-                  transition: { duration: 0.3, ease: 'easeInOut' },
-                }}
-                whileTap={{ scale: 1.05 }}
-                className="p-8 rounded-2xl border border-yellow-200/30 bg-white/10 backdrop-blur-xl shadow-2xl transition-transform"
-              >
-                <h3 className="text-2xl font-semibold text-yellow-300 mb-2">
-                  {service.title}
-                </h3>
-                <p className="text-amber-100">{service.description}</p>
-              </motion.div>
-            ))}
-          </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Show database services if available, otherwise show JSON services as fallback */}
+            {(!loading && services.length > 0
+              ? services.map((service: Service, index: number) => {
+                  console.log(`Rendering service ${index + 1}:`, service.title)
+                  return (
+                    <div
+                      key={service.id}
+                      className="p-8 rounded-2xl border border-yellow-200/30 bg-white/10 backdrop-blur-xl shadow-2xl transition-transform hover:scale-105"
+                    >
+                      <h3 className="text-2xl font-semibold text-yellow-300 mb-2">
+                        {language === 'si' ? service.title_si : service.title}
+                      </h3>
+                      <p className="text-amber-100">
+                        {language === 'si' ? service.description_si : service.description}
+                      </p>
+                    </div>
+                  )
+                })
+              : t.list?.map((service: any, index: number) => (
+                  <div
+                    key={index}
+                    className="p-8 rounded-2xl border border-yellow-200/30 bg-white/10 backdrop-blur-xl shadow-2xl transition-transform hover:scale-105"
+                  >
+                    <h3 className="text-2xl font-semibold text-yellow-300 mb-2">
+                      {service.title}
+                    </h3>
+                    <p className="text-amber-100">{service.description}</p>
+                  </div>
+                ))
+            )}
+          </div>
 
           {/* Contact Info */}
           <motion.div

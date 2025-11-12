@@ -90,6 +90,18 @@ ADD COLUMN IF NOT EXISTS title_si TEXT;
 ALTER TABLE public.branches 
 ADD COLUMN IF NOT EXISTS description_si TEXT;
 
+ALTER TABLE public.branches 
+ADD COLUMN IF NOT EXISTS address TEXT;
+
+ALTER TABLE public.branches 
+ADD COLUMN IF NOT EXISTS address_si TEXT;
+
+ALTER TABLE public.branches 
+ADD COLUMN IF NOT EXISTS contact_number TEXT;
+
+ALTER TABLE public.branches 
+ADD COLUMN IF NOT EXISTS map_url TEXT;
+
 -- 3. Create index for faster ordering queries
 CREATE INDEX IF NOT EXISTS idx_branches_order ON public.branches(order_index);
 
@@ -132,3 +144,66 @@ WHERE table_name = 'branches' AND table_schema = 'public';
 -- INSERT INTO public.branches (title, description, title_si, description_si, is_coming_soon, order_index) VALUES
 -- ('Siripura', 'Our branch located in Siripura.', 'සිරිපුර', 'අපේ ශාඛාව සිරිපුර හි පිහිටා ඇත.', false, 0),
 -- ('Coming Soon...', '', 'ඉක්මනින්...', '', true, 1);
+
+-- ============================================
+-- SERVICES TABLE SETUP
+-- ============================================
+
+-- 1. Create services table
+CREATE TABLE IF NOT EXISTS public.services (
+  id BIGSERIAL PRIMARY KEY,
+  title TEXT NOT NULL,
+  description TEXT,
+  title_si TEXT,
+  description_si TEXT,
+  order_index INTEGER NOT NULL DEFAULT 0,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
+);
+
+-- 2. If table already exists but missing columns, add them
+ALTER TABLE public.services 
+ADD COLUMN IF NOT EXISTS order_index INTEGER NOT NULL DEFAULT 0;
+
+ALTER TABLE public.services 
+ADD COLUMN IF NOT EXISTS title_si TEXT;
+
+ALTER TABLE public.services 
+ADD COLUMN IF NOT EXISTS description_si TEXT;
+
+-- 3. Create index for faster ordering queries
+CREATE INDEX IF NOT EXISTS idx_services_order ON public.services(order_index);
+
+-- 4. Enable Row Level Security
+ALTER TABLE public.services ENABLE ROW LEVEL SECURITY;
+
+-- 5. Drop existing policies if they exist
+DROP POLICY IF EXISTS "Allow public read access services" ON public.services;
+DROP POLICY IF EXISTS "Allow authenticated insert services" ON public.services;
+DROP POLICY IF EXISTS "Allow authenticated update services" ON public.services;
+DROP POLICY IF EXISTS "Allow authenticated delete services" ON public.services;
+
+-- 6. Create policies for public read access
+CREATE POLICY "Allow public read access services" ON public.services
+  FOR SELECT
+  USING (true);
+
+-- 7. Create policies for public insert (change to authenticated in production)
+CREATE POLICY "Allow authenticated insert services" ON public.services
+  FOR INSERT
+  WITH CHECK (true);
+
+-- 8. Create policies for public update (change to authenticated in production)
+CREATE POLICY "Allow authenticated update services" ON public.services
+  FOR UPDATE
+  USING (true)
+  WITH CHECK (true);
+
+-- 9. Create policies for public delete (change to authenticated in production)
+CREATE POLICY "Allow authenticated delete services" ON public.services
+  FOR DELETE
+  USING (true);
+
+-- 10. Verify the table structure
+SELECT column_name, data_type, is_nullable, column_default
+FROM information_schema.columns
+WHERE table_name = 'services' AND table_schema = 'public';
