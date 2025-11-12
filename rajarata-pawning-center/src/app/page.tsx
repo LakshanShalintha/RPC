@@ -11,7 +11,7 @@ export default function RootPage() {
     const timer = setTimeout(() => {
       setLoading(false)
       router.push('/home')
-    }, 2000) // 2 seconds delay
+    }, 1000) // 2 seconds delay
     return () => clearTimeout(timer)
   }, [router])
 
@@ -24,14 +24,14 @@ export default function RootPage() {
             <Image
               src="/images/logo/Logo.webp" 
               alt="Rajarata Pawning Center Logo"
-              width={120}
-              height={120}
+              width={250}
+              height={250}
               className="rounded-full shadow-lg bg-white p-2"
             />
           </div>
 
           {/* --- TEXT --- */}
-          <h1 className="text-3xl font-extrabold text-white drop-shadow-md">
+          <h1 className="text-4xl font-extrabold text-white drop-shadow-md">
             Welcome to Rajarata Pawning Center
           </h1>
           <p className="text-yellow-200 mt-2 text-lg">Loading your experience...</p>

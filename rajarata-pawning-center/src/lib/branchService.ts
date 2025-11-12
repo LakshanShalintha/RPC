@@ -22,7 +22,11 @@ export const BranchService = {
     title: string, 
     description: string, 
     titleSi: string, 
-    descriptionSi: string, 
+    descriptionSi: string,
+    address: string,
+    addressSi: string,
+    contactNumber: string,
+    mapUrl: string,
     isComingSoon: boolean
   ): Promise<Branch> {
     console.log('Starting branch creation...')
@@ -30,6 +34,10 @@ export const BranchService = {
     console.log('Description EN:', description)
     console.log('Title SI:', titleSi)
     console.log('Description SI:', descriptionSi)
+    console.log('Address EN:', address)
+    console.log('Address SI:', addressSi)
+    console.log('Contact Number:', contactNumber)
+    console.log('Map URL:', mapUrl)
     console.log('Is Coming Soon:', isComingSoon)
 
     // Get current max order_index
@@ -53,6 +61,10 @@ export const BranchService = {
         description,
         title_si: titleSi,
         description_si: descriptionSi,
+        address,
+        address_si: addressSi,
+        contact_number: contactNumber,
+        map_url: mapUrl,
         is_coming_soon: isComingSoon,
         order_index: nextOrderIndex
       })
@@ -73,7 +85,11 @@ export const BranchService = {
     title: string, 
     description: string, 
     titleSi: string, 
-    descriptionSi: string, 
+    descriptionSi: string,
+    address: string,
+    addressSi: string,
+    contactNumber: string,
+    mapUrl: string,
     isComingSoon: boolean
   ): Promise<Branch> {
     console.log('Updating branch:', id)
@@ -85,6 +101,10 @@ export const BranchService = {
         description,
         title_si: titleSi,
         description_si: descriptionSi,
+        address,
+        address_si: addressSi,
+        contact_number: contactNumber,
+        map_url: mapUrl,
         is_coming_soon: isComingSoon
       })
       .eq('id', id)

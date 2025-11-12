@@ -22,7 +22,21 @@ export type Branch = {
   description: string
   title_si: string
   description_si: string
+  address?: string
+  address_si?: string
+  contact_number?: string
+  map_url?: string
   is_coming_soon: boolean
+  order_index: number
+  created_at: string
+}
+
+export type Service = {
+  id: number
+  title: string
+  description: string
+  title_si: string
+  description_si: string
   order_index: number
   created_at: string
 }

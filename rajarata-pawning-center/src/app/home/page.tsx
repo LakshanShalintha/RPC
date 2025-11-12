@@ -15,6 +15,8 @@ export default function HomePage() {
   const [loadingSliders, setLoadingSliders] = useState<boolean>(true)
   const [branches, setBranches] = useState<Branch[]>([])
   const [loadingBranches, setLoadingBranches] = useState<boolean>(true)
+  const [selectedBranch, setSelectedBranch] = useState<Branch | null>(null)
+  const [showBranchPopup, setShowBranchPopup] = useState(false)
 
   // Fetch sliders from Supabase
   useEffect(() => {
@@ -222,13 +224,20 @@ export default function HomePage() {
                 <motion.div
                   key={branch.id}
                   whileHover={{ scale: 1.03 }}
-                  className="text-center p-8 bg-white/10 backdrop-blur-xl border border-yellow-300/30 rounded-2xl shadow-lg"
+                  onClick={() => {
+                    setSelectedBranch(branch)
+                    setShowBranchPopup(true)
+                  }}
+                  className="text-center p-8 bg-white/10 backdrop-blur-xl border border-yellow-300/30 rounded-2xl shadow-lg cursor-pointer transition-all hover:border-yellow-300/60"
                 >
                   <div className="text-2xl font-bold text-yellow-300 mb-3">
                     {language === 'si' ? (branch.title_si || branch.title) : branch.title}
                   </div>
                   <div className="text-amber-100">
                     {language === 'si' ? (branch.description_si || branch.description) : branch.description}
+                  </div>
+                  <div className="mt-4 text-sm text-yellow-400">
+                    {language === 'si' ? 'විස්තර සඳහා ක්ලික් කරන්න' : 'Click for details'}
                   </div>
                 </motion.div>
               ))}
@@ -288,6 +297,98 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Branch Details Popup */}
+      {showBranchPopup && selectedBranch && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4" onClick={() => setShowBranchPopup(false)}>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            onClick={(e) => e.stopPropagation()}
+            className="bg-gradient-to-br from-[#2a1d0b] to-[#1f1508] border-2 border-yellow-300/50 rounded-2xl p-8 max-w-2xl w-full shadow-2xl relative max-h-[90vh] overflow-y-auto"
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setShowBranchPopup(false)}
+              className="absolute top-4 right-4 bg-red-500 hover:bg-red-600 text-white rounded-full p-2 transition-all"
+              aria-label="Close"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* Branch Title */}
+            <h2 className="text-3xl font-bold text-yellow-300 mb-6 pr-12">
+              {language === 'si' ? (selectedBranch.title_si || selectedBranch.title) : selectedBranch.title}
+            </h2>
+
+            {/* Branch Description */}
+            {(selectedBranch.description || selectedBranch.description_si) && (
+              <div className="mb-6">
+                <h3 className="text-xl font-semibold text-yellow-400 mb-2">
+                  {language === 'si' ? 'විස්තරය' : 'Description'}
+                </h3>
+                <p className="text-amber-100">
+                  {language === 'si' ? (selectedBranch.description_si || selectedBranch.description) : selectedBranch.description}
+                </p>
+              </div>
+            )}
+
+            {/* Address */}
+            {(selectedBranch.address || selectedBranch.address_si) && (
+              <div className="mb-6">
+                <h3 className="text-xl font-semibold text-yellow-400 mb-2 flex items-center gap-2">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  {language === 'si' ? 'ලිපිනය' : 'Address'}
+                </h3>
+                <p className="text-amber-100">
+                  {language === 'si' ? (selectedBranch.address_si || selectedBranch.address) : selectedBranch.address}
+                </p>
+              </div>
+            )}
+
+            {/* Contact Number */}
+            {selectedBranch.contact_number && (
+              <div className="mb-6">
+                <h3 className="text-xl font-semibold text-yellow-400 mb-2 flex items-center gap-2">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                  {language === 'si' ? 'දුරකථන අංකය' : 'Contact Number'}
+                </h3>
+                <a href={`tel:${selectedBranch.contact_number}`} className="text-amber-100 hover:text-yellow-300 transition-colors">
+                  {selectedBranch.contact_number}
+                </a>
+              </div>
+            )}
+
+            {/* Google Maps */}
+            {selectedBranch.map_url && (
+              <div className="mb-6">
+                <h3 className="text-xl font-semibold text-yellow-400 mb-3 flex items-center gap-2">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                  </svg>
+                  {language === 'si' ? 'ස්ථානය' : 'Location'}
+                </h3>
+                <div className="rounded-xl overflow-hidden border border-yellow-300/30">
+                  <iframe
+                    src={selectedBranch.map_url}
+                    className="w-full h-[300px] border-0"
+                    allowFullScreen
+                    loading="lazy"
+                  ></iframe>
+                </div>
+              </div>
+            )}
+          </motion.div>
+        </div>
+      )}
     </main>
   )
 }

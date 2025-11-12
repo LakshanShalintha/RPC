@@ -90,14 +90,14 @@ export default function AboutPage() {
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
-              className="flex justify-center items-center"
+              className="flex justify-center items-stretch h-full"
             >
-              <div className="relative">
+              <div className="relative w-full h-full">
                 <div className="absolute -inset-2 bg-gradient-to-r from-yellow-400 to-amber-300 rounded-2xl blur-lg opacity-40"></div>
                 <img
                   src="/images/about/about.png"
                   alt={t.title}
-                  className="relative rounded-2xl border border-yellow-300/20 shadow-2xl backdrop-blur-lg transform hover:scale-105 transition-transform duration-500"
+                  className="relative rounded-2xl border border-yellow-300/20 shadow-2xl backdrop-blur-lg transform hover:scale-105 transition-transform duration-500 w-full h-full object-cover"
                 />
               </div>
             </motion.div>
