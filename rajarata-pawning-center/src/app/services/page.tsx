@@ -76,9 +76,21 @@ export default function ServicesPage() {
               ? services.map((service: Service, index: number) => {
                   console.log(`Rendering service ${index + 1}:`, service.title)
                   return (
-                    <div
+                    <motion.div
                       key={service.id}
-                      className="p-8 rounded-2xl border border-yellow-200/30 bg-white/10 backdrop-blur-xl shadow-2xl transition-transform hover:scale-105"
+                      initial={{ opacity: 0, y: 50 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, amount: 0.3 }}
+                      transition={{ 
+                        duration: 0.8, 
+                        delay: index * 0.15,
+                        ease: [0.25, 0.46, 0.45, 0.94]
+                      }}
+                      whileHover={{ 
+                        scale: 1.05,
+                        transition: { duration: 0.3, ease: "easeOut" }
+                      }}
+                      className="p-8 rounded-2xl border border-yellow-200/30 bg-white/10 backdrop-blur-xl shadow-2xl"
                     >
                       <h3 className="text-2xl font-semibold text-yellow-300 mb-2">
                         {language === 'si' ? service.title_si : service.title}
@@ -86,19 +98,31 @@ export default function ServicesPage() {
                       <p className="text-amber-100">
                         {language === 'si' ? service.description_si : service.description}
                       </p>
-                    </div>
+                    </motion.div>
                   )
                 })
               : t.list?.map((service: any, index: number) => (
-                  <div
+                  <motion.div
                     key={index}
-                    className="p-8 rounded-2xl border border-yellow-200/30 bg-white/10 backdrop-blur-xl shadow-2xl transition-transform hover:scale-105"
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ 
+                      duration: 0.8, 
+                      delay: index * 0.15,
+                      ease: [0.25, 0.46, 0.45, 0.94]
+                    }}
+                    whileHover={{ 
+                      scale: 1.05,
+                      transition: { duration: 0.3, ease: "easeOut" }
+                    }}
+                    className="p-8 rounded-2xl border border-yellow-200/30 bg-white/10 backdrop-blur-xl shadow-2xl"
                   >
                     <h3 className="text-2xl font-semibold text-yellow-300 mb-2">
                       {service.title}
                     </h3>
                     <p className="text-amber-100">{service.description}</p>
-                  </div>
+                  </motion.div>
                 ))
             )}
           </div>

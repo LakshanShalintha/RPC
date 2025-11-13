@@ -40,3 +40,15 @@ export type Service = {
   order_index: number
   created_at: string
 }
+
+export type News = {
+  id: number
+  title: string
+  title_si: string
+  description: string
+  description_si: string
+  date: string
+  image_url?: string
+  order_index?: number
+  created_at: string
+}

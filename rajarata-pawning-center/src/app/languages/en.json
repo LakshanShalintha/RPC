@@ -2,6 +2,7 @@
   "navbar": {
     "home": "Home",
     "services": "Services",
+    "news": "News",
     "about": "About",
     "contact": "Contact"
   },
@@ -51,6 +52,13 @@
   },
 
 
+  "news": {
+    "title": "Latest News",
+    "desc": "Stay updated with the latest announcements and news from Rajarata Pawning Center.",
+    "loading": "Loading news...",
+    "noNews": "No news available at the moment.",
+    "readMore": "Read More"
+  },
   
   "services": {
     "title": "Our Services",
@@ -108,12 +116,12 @@
 
   "footer": {
   "companyName": "Rajarata Gold Loan Center",
-  "description": "Trusted pawning services in the Rajarata region.",
+  "description": "Trusted pawning services center in the Rajarata region.",
   "email": "rpc@gmail.com",
   "addressLine1": "Siripura New Town,",
   "addressLine2": "Polonnaruwa, Sri Lanka.",
   "pagesTitle": "Pages",
-  "pages": { "home": "Home", "services": "Services", "about": "About", "contact": "Contact" },
+  "pages": { "home": "Home", "services": "Services", "news": "News", "about": "About", "contact": "Contact" },
   "copyright": "Rajarata Pawning Center",
   "rights": "All rights reserved.",
   "social": { "facebook": "#", "instagram": "#", "location": "#" }

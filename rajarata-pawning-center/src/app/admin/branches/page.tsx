@@ -29,7 +29,9 @@ export default function BranchesManagementPage() {
   // Popup messages
   const [showPopup, setShowPopup] = useState(false)
   const [popupMessage, setPopupMessage] = useState('')
-  const [popupType, setPopupType] = useState<'success' | 'error' | 'loading'>('success')
+  const [popupType, setPopupType] = useState<'success' | 'error' | 'loading' | 'confirm'>('success')
+  const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null)
+  const [deleteConfirmTitle, setDeleteConfirmTitle] = useState('')
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -50,13 +52,50 @@ export default function BranchesManagementPage() {
     }
   }
 
-  const showMessage = (message: string, type: 'success' | 'error' | 'loading') => {
+  const showMessage = (message: string, type: 'success' | 'error' | 'loading' | 'confirm') => {
     setPopupMessage(message)
     setPopupType(type)
     setShowPopup(true)
-    if (type !== 'loading') {
+    if (type !== 'loading' && type !== 'confirm') {
       setTimeout(() => setShowPopup(false), 3000)
     }
+  }
+
+  const handleDeleteBranch = (id: number, title: string) => {
+    setDeleteConfirmId(id)
+    setDeleteConfirmTitle(title)
+    showMessage(`Are you sure you want to delete "${title}"?`, 'confirm')
+  }
+
+  const confirmDelete = async () => {
+    if (deleteConfirmId === null) return
+
+    try {
+      setShowPopup(false)
+      setTimeout(() => {
+        showMessage('Deleting branch...', 'loading')
+      }, 100)
+      await BranchService.deleteBranch(deleteConfirmId)
+      setShowPopup(false)
+      setTimeout(() => {
+        showMessage('Branch deleted successfully!', 'success')
+      }, 100)
+      await loadBranches()
+      setDeleteConfirmId(null)
+      setDeleteConfirmTitle('')
+    } catch (error) {
+      console.error('Failed to delete branch:', error)
+      setShowPopup(false)
+      setTimeout(() => {
+        showMessage('Failed to delete branch', 'error')
+      }, 100)
+    }
+  }
+
+  const cancelDelete = () => {
+    setShowPopup(false)
+    setDeleteConfirmId(null)
+    setDeleteConfirmTitle('')
   }
 
   const handleAddBranch = async () => {
@@ -66,18 +105,22 @@ export default function BranchesManagementPage() {
     }
 
     try {
-      showMessage('Adding branch...', 'loading')
+      // Close modal first, then show loading
+      setShowAddModal(false)
+      setTimeout(() => {
+        showMessage('Adding branch...', 'loading')
+      }, 100)
+      
       await BranchService.addBranch(title, description, titleSi, descriptionSi, address, addressSi, contactNumber, mapUrl, isComingSoon)
-      setShowPopup(false) // Hide loading popup
+      setShowPopup(false)
       setTimeout(() => {
         showMessage('Branch added successfully!', 'success')
-      }, 100) // Small delay to ensure smooth transition
+      }, 100)
       await loadBranches()
-      setShowAddModal(false)
       resetForm()
     } catch (error) {
       console.error('Failed to add branch:', error)
-      setShowPopup(false) // Hide loading popup
+      setShowPopup(false)
       setTimeout(() => {
         showMessage('Failed to add branch', 'error')
       }, 100)
@@ -91,43 +134,25 @@ export default function BranchesManagementPage() {
     }
 
     try {
-      showMessage('Updating branch...', 'loading')
+      // Close modal first, then show loading
+      setShowEditModal(false)
+      setEditingBranch(null)
+      setTimeout(() => {
+        showMessage('Updating branch...', 'loading')
+      }, 100)
+      
       await BranchService.updateBranch(editingBranch.id, title, description, titleSi, descriptionSi, address, addressSi, contactNumber, mapUrl, isComingSoon)
-      setShowPopup(false) // Hide loading popup
+      setShowPopup(false)
       setTimeout(() => {
         showMessage('Branch updated successfully!', 'success')
       }, 100)
       await loadBranches()
-      setShowEditModal(false)
-      setEditingBranch(null)
       resetForm()
     } catch (error) {
       console.error('Failed to update branch:', error)
-      setShowPopup(false) // Hide loading popup
+      setShowPopup(false)
       setTimeout(() => {
         showMessage('Failed to update branch', 'error')
-      }, 100)
-    }
-  }
-
-  const handleDeleteBranch = async (id: number, title: string) => {
-    if (!confirm(`Are you sure you want to delete "${title}"?`)) {
-      return
-    }
-
-    try {
-      showMessage('Deleting branch...', 'loading')
-      await BranchService.deleteBranch(id)
-      setShowPopup(false) // Hide loading popup
-      setTimeout(() => {
-        showMessage('Branch deleted successfully!', 'success')
-      }, 100)
-      await loadBranches()
-    } catch (error) {
-      console.error('Failed to delete branch:', error)
-      setShowPopup(false) // Hide loading popup
-      setTimeout(() => {
-        showMessage('Failed to delete branch', 'error')
       }, 100)
     }
   }
@@ -218,6 +243,7 @@ export default function BranchesManagementPage() {
             <div className={`${
               popupType === 'success' ? 'bg-gradient-to-br from-green-500/20 to-green-600/20 border-2 border-green-500' :
               popupType === 'error' ? 'bg-gradient-to-br from-red-500/20 to-red-600/20 border-2 border-red-500' :
+              popupType === 'confirm' ? 'bg-gradient-to-br from-yellow-500/20 to-orange-600/20 border-2 border-yellow-500' :
               'bg-gradient-to-br from-blue-500/20 to-blue-600/20 border-2 border-blue-500'
             } rounded-2xl p-6 max-w-md w-full shadow-2xl animate-scale-in`}>
               <div className="flex flex-col items-center text-center">
@@ -226,6 +252,30 @@ export default function BranchesManagementPage() {
                     <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-400 mb-4"></div>
                     <h3 className="text-2xl font-bold text-blue-200 mb-2">Processing...</h3>
                     <p className="text-blue-100">{popupMessage}</p>
+                  </>
+                ) : popupType === 'confirm' ? (
+                  <>
+                    <div className="bg-yellow-500/20 p-4 rounded-full mb-4">
+                      <svg className="w-16 h-16 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-2xl font-bold text-yellow-200 mb-2">Confirm Delete</h3>
+                    <p className="text-yellow-100 mb-6">{popupMessage}</p>
+                    <div className="flex gap-3 w-full">
+                      <button 
+                        onClick={cancelDelete} 
+                        className="flex-1 bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-xl font-semibold transition-all"
+                      >
+                        Cancel
+                      </button>
+                      <button 
+                        onClick={confirmDelete} 
+                        className="flex-1 bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-xl font-semibold transition-all"
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </>
                 ) : (
                   <>

@@ -15,6 +15,7 @@ export default function Navbar() {
   const links = [
     { key: 'home', path: '/home' },
     { key: 'services', path: '/services' },
+    { key: 'news', path: '/news' },
     { key: 'about', path: '/about' },
     { key: 'contact', path: '/contact' },
   ]
