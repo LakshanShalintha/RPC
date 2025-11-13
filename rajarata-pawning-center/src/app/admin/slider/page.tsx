@@ -16,6 +16,13 @@ export default function SliderManagementPage() {
   const [success, setSuccess] = useState<string | null>(null)
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  
+  // New popup system states
+  const [showPopup, setShowPopup] = useState(false)
+  const [popupMessage, setPopupMessage] = useState('')
+  const [popupType, setPopupType] = useState<'success' | 'error' | 'loading' | 'confirm'>('success')
+  const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null)
+  const [deleteConfirmImageUrl, setDeleteConfirmImageUrl] = useState<string | null>(null)
 
   const MAX_SLIDERS = 5
 
@@ -24,6 +31,47 @@ export default function SliderManagementPage() {
       loadSliders()
     }
   }, [isAuthenticated])
+
+  const showMessage = (message: string, type: 'success' | 'error' | 'loading' | 'confirm') => {
+    setPopupMessage(message)
+    setPopupType(type)
+    setShowPopup(true)
+    if (type !== 'loading' && type !== 'confirm') {
+      setTimeout(() => setShowPopup(false), 3000)
+    }
+  }
+
+  const confirmDelete = async () => {
+    if (deleteConfirmId === null || deleteConfirmImageUrl === null) return
+    
+    setShowPopup(false)
+    setTimeout(() => showMessage('Deleting slider...', 'loading'), 100)
+
+    try {
+      await SliderService.deleteSlider(deleteConfirmId, deleteConfirmImageUrl)
+      setShowPopup(false)
+      setTimeout(() => {
+        showMessage('Slider deleted successfully!', 'success')
+      }, 100)
+      setDeleteConfirmId(null)
+      setDeleteConfirmImageUrl(null)
+      await loadSliders()
+    } catch (error) {
+      console.error('Failed to delete slider:', error)
+      setShowPopup(false)
+      setTimeout(() => {
+        showMessage('Failed to delete slider', 'error')
+      }, 100)
+      setDeleteConfirmId(null)
+      setDeleteConfirmImageUrl(null)
+    }
+  }
+
+  const cancelDelete = () => {
+    setShowPopup(false)
+    setDeleteConfirmId(null)
+    setDeleteConfirmImageUrl(null)
+  }
 
   const loadSliders = async () => {
     try {
@@ -95,9 +143,13 @@ export default function SliderManagementPage() {
 
     try {
       setUploading(true)
+      showMessage('Uploading slider image...', 'loading')
       
       await SliderService.addSlider(selectedFile)
-      setSuccess('Slider image uploaded successfully!')
+      setShowPopup(false)
+      setTimeout(() => {
+        showMessage('Slider image uploaded successfully!', 'success')
+      }, 100)
       await loadSliders()
       
       // Reset file input and preview
@@ -106,7 +158,10 @@ export default function SliderManagementPage() {
       const fileInput = document.getElementById('file-upload') as HTMLInputElement
       if (fileInput) fileInput.value = ''
     } catch (err) {
-      setError('Failed to upload slider image. Please try again.')
+      setShowPopup(false)
+      setTimeout(() => {
+        showMessage('Failed to upload slider image. Please try again.', 'error')
+      }, 100)
       console.error(err)
     } finally {
       setUploading(false)
@@ -121,19 +176,10 @@ export default function SliderManagementPage() {
     if (fileInput) fileInput.value = ''
   }
 
-  const handleDelete = async (id: number, imageUrl: string) => {
-    if (!confirm('Are you sure you want to delete this slider?')) return
-
-    try {
-      setError(null)
-      setSuccess(null)
-      await SliderService.deleteSlider(id, imageUrl)
-      setSuccess('Slider deleted successfully!')
-      await loadSliders()
-    } catch (err) {
-      setError('Failed to delete slider. Please try again.')
-      console.error(err)
-    }
+  const handleDelete = (id: number, imageUrl: string) => {
+    setDeleteConfirmId(id)
+    setDeleteConfirmImageUrl(imageUrl)
+    showMessage('Are you sure you want to delete this slider?', 'confirm')
   }
 
   const moveSlider = async (index: number, direction: 'up' | 'down') => {
@@ -195,6 +241,84 @@ export default function SliderManagementPage() {
         </div>
 
         {/* Popup Messages */}
+        {showPopup && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className={`${
+              popupType === 'success' ? 'bg-gradient-to-br from-green-500/20 to-green-600/20 border-2 border-green-500' :
+              popupType === 'error' ? 'bg-gradient-to-br from-red-500/20 to-red-600/20 border-2 border-red-500' :
+              popupType === 'confirm' ? 'bg-gradient-to-br from-yellow-500/20 to-yellow-600/20 border-2 border-yellow-500' :
+              'bg-gradient-to-br from-blue-500/20 to-blue-600/20 border-2 border-blue-500'
+            } rounded-2xl p-6 max-w-md w-full shadow-2xl animate-scale-in`}>
+              <div className="flex flex-col items-center text-center">
+                {popupType === 'loading' ? (
+                  <>
+                    <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-400 mb-4"></div>
+                    <h3 className="text-2xl font-bold text-blue-200 mb-2">Processing...</h3>
+                    <p className="text-blue-100">{popupMessage}</p>
+                  </>
+                ) : popupType === 'confirm' ? (
+                  <>
+                    <div className="bg-yellow-500/20 p-4 rounded-full mb-4">
+                      <svg className="w-16 h-16 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-2xl font-bold text-yellow-200 mb-2">Confirm Delete</h3>
+                    <p className="text-yellow-100 mb-6">{popupMessage}</p>
+                    <div className="flex gap-3 w-full">
+                      <button 
+                        onClick={cancelDelete}
+                        className="flex-1 bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-xl font-semibold transition-all"
+                      >
+                        Cancel
+                      </button>
+                      <button 
+                        onClick={confirmDelete}
+                        className="flex-1 bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-xl font-semibold transition-all"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className={`${
+                      popupType === 'success' ? 'bg-green-500/20' : 'bg-red-500/20'
+                    } p-4 rounded-full mb-4`}>
+                      <svg className={`w-16 h-16 ${
+                        popupType === 'success' ? 'text-green-400' : 'text-red-400'
+                      }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        {popupType === 'success' ? (
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        ) : (
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        )}
+                      </svg>
+                    </div>
+                    <h3 className={`text-2xl font-bold mb-2 ${
+                      popupType === 'success' ? 'text-green-200' : 'text-red-200'
+                    }`}>
+                      {popupType === 'success' ? 'Success!' : 'Error!'}
+                    </h3>
+                    <p className={`mb-6 ${
+                      popupType === 'success' ? 'text-green-100' : 'text-red-100'
+                    }`}>{popupMessage}</p>
+                    <button 
+                      onClick={() => setShowPopup(false)} 
+                      className={`${
+                        popupType === 'success' ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'
+                      } text-white px-8 py-3 rounded-xl font-semibold transition-all`}
+                    >
+                      Close
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+        
+        {/* Keep old error/success/uploading popups for backward compatibility */}
         {error && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
             <div className="bg-gradient-to-br from-red-500/20 to-red-600/20 border-2 border-red-500 rounded-2xl p-6 max-w-md w-full shadow-2xl animate-scale-in">

@@ -24,7 +24,7 @@ export default function Footer() {
             <h3 className="text-xl md:text-3xl font-bold text-yellow-300">{t.companyName || 'Rajarata Gold Loan Center'}</h3>
             <p className="mt-4 text-sm text-amber-100">{t.description || 'Trusted pawning services in the Rajarata region.'}</p>
 
-            <div className="mt-4 text-sm text-amber-100 space-y-1">
+            <div className="mt-12 text-lg text-amber-100 space-y-1">
               <p>
                 <a href={`mailto:${t.email || 'rpc@gmail.com'}`} className="hover:text-yellow-400">
                   {t.email || 'rpc@gmail.com'}
@@ -44,6 +44,9 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/services" className="hover:text-yellow-400">{t.pages?.services || 'Services'}</Link>
+              </li>
+              <li>
+                <Link href="/news" className="hover:text-yellow-400">{t.pages?.news || 'News'}</Link>
               </li>
               <li>
                 <Link href="/about" className="hover:text-yellow-400">{t.pages?.about || 'About'}</Link>
